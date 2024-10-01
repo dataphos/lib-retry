@@ -144,7 +144,7 @@ linters:
     - tenv
     - testpackage
     - thelper
-    - tparallel
+    # - tparallel
     - typecheck
     - unconvert
     - unparam
