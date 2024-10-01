@@ -146,7 +146,9 @@ jobs:
 
       - name: Check and Commit changes
         run: |
-          git add ./licenses
+          if [ -d "./licenses" ]; then
+            git add ./licenses
+          fi
 
           if ! git diff-index --quiet HEAD; then
             git commit -m "chore: update third party licenses"
