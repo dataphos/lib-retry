@@ -68,14 +68,18 @@ df["Module"] = df.apply(
     axis=1
 )
 
+# Filter out any Dataphos-repository licenses
+df = df[~df["Module"].str.startswith("github.com/dataphos")]
+
+if df.empty:
+    print("No third party licenses found.")
+    sys.exit()
+
 # Keep only the rows with compliant licenses.
 df_allowed = df[df["License"].str.contains("|".join(ALLOWED_LICENSES))]
 
 # Create another dataframe for disallowed licenses.
 df_disallowed = df[~df["License"].str.contains("|".join(ALLOWED_LICENSES))]
-
-# Filter out any Dataphos-repository licenses from disallowed licenses
-df_disallowed = df_disallowed[~df_disallowed["Module"].str.startswith("github.com/dataphos")]
 
 # Drop the "License Path" and "Module Version" columns from both dataframes
 df_allowed = df_allowed.drop(columns=["License Path", "Module Version"])
